@@ -1,0 +1,36 @@
+<style type="text/css">
+	.item{
+		padding: 10px;
+	    box-shadow: 0px 0px 10px #ecebeb;
+	    border-radius: 5px;
+	    margin: 15px 0px;
+	    font-size: 20px;
+	}
+	.items{
+		margin-top: 20px;
+	}
+</style>
+<div style="padding-top: 20px;">
+	<a href="/" class="btn btn-default">Mənim suallarım</a>
+	<a href="#" class="btn btn-primary">Digər suallar</a>
+</div>
+<hr>
+<div>
+	<div align="right"></div>
+	<div class="items">
+		<?php 
+			$questionGroups = QuestionGroup::find();
+			foreach ($questionGroups as $key => $value)
+			{
+				print '<div class="item" data-item-id="'.$value->getId().'">'.($key+1).'. '.$value->getName().'</div>';
+			}
+		?>
+	</div>
+</div>
+<script>
+	document.querySelectorAll('.items>.item[data-item-id]').forEach(function(item, key) {
+		item.addEventListener('click', function() {
+			location.href = '/other-question-group-detailed/'+this.getAttribute('data-item-id');
+		});
+	});
+</script>

@@ -1,0 +1,70 @@
+<style type="text/css">
+	.item-header, p.item-detailed{
+		padding: 10px;
+	    box-shadow: 0px 0px 10px #ecebeb;
+	    border-radius: 5px;
+	    margin: 15px 0px;
+	    font-size: 20px;
+	    transition: .3s ease height
+	}
+	.item-header
+	{
+		background: #f5f5f5;
+		box-shadow: none;
+		cursor: pointer;
+	}
+	.items{
+		margin-top: 20px;
+	}
+	.item-body
+	{
+		padding-left: 30px;
+	}
+	.hide-answer{
+		display: none !important;
+	}
+	input[type="checkbox"]
+	{
+		display: none;
+	}
+</style>
+<br>
+<div>
+	<div align="right"></div>
+	<div class="items">
+		<?php
+			$questions = Question::find(['question_group_id = :question_group_id:', 'bind' => ['question_group_id' => (int)$this->dispatcher->getParam('id')]]);
+			foreach($questions as $key => $value)
+			{
+				print '<div class="item">';
+					print '<div class="item-header">'.($key+1).'. '.$value->getName().'</div>';
+					print '<div class="item-body hide-answer">';
+					foreach ($value->answer as $index => $item)
+					{
+						print '<p class="item-detailed"> <input type="checkbox" name="answer['.$value->getId().']['.$item->getId().']">'.($index+1).'. '.$item->getName().'</p>';
+					}
+					print '</div>';
+				print '</div>';
+			}
+		?>
+	</div>
+</div>
+<script>
+	document.querySelectorAll('.item-header').forEach(function(item, key) {
+		item.addEventListener('click', function() {
+			var itemDetailed = this.parentNode.querySelector('.item-body');
+			if(itemDetailed.classList.contains('hide-answer')) {
+				itemDetailed.classList.remove('hide-answer');	
+			}
+			else {
+				itemDetailed.classList.add('hide-answer');	
+			}
+		});
+	});
+
+	document.querySelectorAll('.item-detailed').forEach(function(item, key) {
+		item.addEventListener('click', function() {
+			// this.parentNode.
+		});
+	});
+</script>

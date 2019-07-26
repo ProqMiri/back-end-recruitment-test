@@ -1,0 +1,73 @@
+<style>
+	form
+	{
+		padding: 25px;
+		margin-top: 50px;
+		border-radius: 8px;
+		box-shadow: 0px 0px 20px #d6d6d6; 
+	}
+	.btn-w
+	{
+		width: 45px;
+		margin-left: 10px;
+		margin-bottom: 1px;
+	}
+	.f-g
+	{
+		display: flex !important;
+	}
+</style>
+<div class="row">
+	<div class="col-md-3"></div>
+	<div class="col-md-6">
+		<?= $this->flashSession->output(); ?>
+		<form method="post" action="/question/<?=(int)$this->dispatcher->getParam('question_group_id')?>/<?=(int)$this->dispatcher->getParam('question_id')?>">
+			<div class="form-group">
+				<label>Sual</label>
+				<input name="name" class="form-control" placeholder="Sual" required minlength="10" maxlength="4000">
+			</div>
+			<div style="padding-left: 30px;" id="answers">
+				<div style="margin-bottom: 15px;">
+					<span >Cavablar </span>
+					<a href="#" class="btn btn-primary btn-sm add-answer" style="float: right">Yeni Cavab</a>
+				</div>
+			</div>
+            <input type="hidden" name="csrf-question" value="<?= $this->session->get('csrf-question') ?>"/>
+            <div align="right">
+				<input type="submit" name="save" value="Yadda saxla" class="btn btn-success">
+			</div>
+		</form>
+	</div>
+	<div class="col-md-3"></div>
+</div>
+<script>
+	document.querySelector('.add-answer').addEventListener('click', function() {
+		if(document.getElementById('answers').querySelectorAll('div.form-group').length == 5) return false;
+		var formGroup = document.createElement('div');
+		formGroup.className = 'form-group f-g';
+		
+		var input = document.createElement('input');
+		input.className = 'form-control'
+		input.setAttribute('name', 'answer[]');
+		input.setAttribute('placeholder', 'Cavab');
+		input.setAttribute('required', 'required');
+		input.setAttribute('minlength', '10');
+		input.setAttribute('maxlength', '4000');
+
+		var a = document.createElement('a');
+		a.className = 'btn btn-sm btn-danger btn-w';
+		a.innerText = 'Sil';
+		a.setAttribute('href', '#');
+		a.onclick = function()
+		{
+			if(document.getElementById('answers').querySelectorAll('div.form-group').length == 2) return false;
+			formGroup.remove();
+		}
+
+		formGroup.appendChild(input);
+		formGroup.appendChild(a);
+		document.getElementById('answers').appendChild(formGroup);
+	});
+	document.querySelector('.add-answer').click();
+	document.querySelector('.add-answer').click();
+</script>

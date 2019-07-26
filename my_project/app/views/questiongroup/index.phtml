@@ -1,0 +1,26 @@
+<style>
+	form
+	{
+		padding: 25px;
+		margin-top: 50px;
+		border-radius: 8px;
+		box-shadow: 0px 0px 20px #d6d6d6; 
+	}
+</style>
+<div class="row">
+	<div class="col-md-3"></div>
+	<div class="col-md-6">
+		<?= $this->flashSession->output(); ?>
+		<form method="post" action="/question-group/<?=(int)$this->dispatcher->getParam('id')?>">
+			<div class="form-group">
+				<label>Sual qrupu</label>
+				<input name="name" class="form-control" placeholder="Sual qrupu" required minlength="10" maxlength="4000">
+			</div>
+            <input type="hidden" name="csrf-question-group" value="<?= $this->session->get('csrf-question-group') ?>"/>
+            <div align="right">
+				<input type="submit" name="save" value="Yadda saxla" class="btn btn-success">
+			</div>
+		</form>
+	</div>
+	<div class="col-md-3"></div>
+</div>

@@ -1,0 +1,39 @@
+<style type="text/css">
+	.item{
+		padding: 10px;
+	    box-shadow: 0px 0px 10px #ecebeb;
+	    border-radius: 5px;
+	    margin: 15px 0px;
+	    font-size: 20px;
+	}
+	.items{
+		margin-top: 20px;
+	}
+</style>
+<script>window.history.pushState(null, null, '/')</script>	
+<div style="padding-top: 20px;">
+	<a href="#" class="btn btn-primary">Mənim suallarım</a>
+	<a href="/other" class="btn btn-default">Digər suallar</a>
+</div>
+<hr>
+<div>
+	<div align="right">
+		<a href="/question-group/0" class="btn btn-success">Yeni sual qrupu</a>
+	</div>
+	<div class="items">
+		<?php 
+			$questionGroups = QuestionGroup::find(['user_id = :user_id:', 'bind' => ['user_id' => $this->session->get('user-id')]]);
+			foreach ($questionGroups as $key => $value)
+			{
+				print '<div class="item" data-item-id="'.$value->getId().'">'.($key+1).'. '.$value->getName().'</div>';
+			}
+		?>
+	</div>
+</div>
+<script>
+	document.querySelectorAll('.items>.item[data-item-id]').forEach(function(item, key) {
+		item.addEventListener('click', function() {
+			location.href = '/question-group-detailed/'+this.getAttribute('data-item-id');
+		});
+	});
+</script>
